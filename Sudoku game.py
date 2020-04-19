@@ -60,7 +60,8 @@ def mouse_handler(event):
 def key_handler(event):
     try:
         char = int(event.char)
-        write_number(char, *active)
+        if is_valid(char, *active):
+            write_number(char, *active)
     except: pass
 
 def create_new():
@@ -94,7 +95,7 @@ def draw_lines():
 
 def write_number(n, row, col):
     s = float(canvas['width'])/g
-    if board[row][col] == 0 and is_valid(n, row, col):
+    if board[row][col] == 0:
         canvas.create_text(col*s+s/2, row*s+s/2, text=str(n), font=('Arial', 20), fill=text_color, tags='number')
         board[row][col] = n
 
