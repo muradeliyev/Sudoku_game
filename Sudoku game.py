@@ -54,7 +54,7 @@ def key_handler(event):
             s = float(canvas['width']) / g
             row, col = active
             canvas.delete('last')
-            canvas.dtag('last')
+            canvas.dtag('number', 'last')
             canvas.create_text(col*s+s/2, row*s+s/2, text=char, font=('Arial', 20), fill=text_color, tags=('number', 'last'))
             board[row][col] = char
 
@@ -80,6 +80,12 @@ def move(x, y):
     canvas.create_rectangle(x, y, x + w, y + w, outline='green', fill='', tags='active', width=5)
     active = (row, col)
 
+def print_board(event):
+    for i in range(9):
+        for j in range(9):
+            print(f"{board[i][j]}", end=(' | ' if (j!=8 and (j+1)%3==0) else ' '))
+        print('\n---------------------' if i!=8 and (i+1)%3==0 else '')
+
 def create_new():
     global board
     board = [[0 for i in range(9)] for _ in range(9)]
@@ -90,6 +96,8 @@ def create_new():
     pen.bind("<Right>", lambda e: move(1, 0))
     pen.bind("<Up>", lambda e: move(0, -1))
     pen.bind("<Down>", lambda e: move(0, 1))
+
+    pen.bind("<space>", print_board)
 
 def find_empty():
     for i in range(9):
