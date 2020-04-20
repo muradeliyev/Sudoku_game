@@ -33,8 +33,8 @@ def solve(board):
 
 def mouse_handler(event):
     global active
-    w = float(canvas['width']) / g
     row, col = get_grid(event)
+    w = float(canvas['height']) / g
 
     if (row, col) != active:
         canvas.delete('active')
@@ -58,12 +58,36 @@ def key_handler(event):
 
     except: pass
 
+def move(x, y):
+    global active
+    row, col = active
+    w = float(canvas['height']) / g
+
+    col += x
+    row += y
+
+    if col == 9: col = 0
+    elif col == -1: col = 8
+
+    if row == 9: row = 0
+    elif row == -1: row = 8
+
+    canvas.delete('active')
+    x = col * w
+    y = row * w
+    canvas.create_rectangle(x, y, x + w, y + w, outline='green', fill='', tags='active', width=5)
+    active = (row, col)
+
 def create_new():
     global board
     board = [[0 for i in range(9)] for _ in range(9)]
     canvas.delete('number')
     canvas.bind("<Button-1>", mouse_handler)
     pen.bind("<Key>", key_handler)
+    pen.bind("<Left>", lambda e: move(-1, 0))
+    pen.bind("<Right>", lambda e: move(1, 0))
+    pen.bind("<Up>", lambda e: move(0, -1))
+    pen.bind("<Down>", lambda e: move(0, 1))
 
 def find_empty():
     for i in range(9):
