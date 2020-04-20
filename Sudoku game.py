@@ -61,10 +61,17 @@ def key_handler(event):
     try:
         char = int(event.char)
         if is_valid(char, *active):
-            write_number(char, *active)
+            s = float(canvas['width']) / g
+            row, col = active
+            canvas.create_text(col*s+s/2, row*s+s/2, text=char, font=('Arial', 20), fill=text_color, tags='number')
+            board[row][col] = char
+
     except: pass
 
 def create_new():
+    global board
+    board = [[0 for i in range(9)] for _ in range(9)]
+    canvas.delete('number')
     canvas.bind("<Button-1>", mouse_handler)
     pen.bind("<Key>", key_handler)
 
@@ -79,7 +86,7 @@ def draw_game(board):
     for i in range(9):
         for j in range(9):
             write_number(board[i][j], i, j)
-    time.sleep(0.01)
+    # time.sleep(0.1)
         
 def draw_lines():
     # horizontal lines
@@ -95,9 +102,8 @@ def draw_lines():
 
 def write_number(n, row, col):
     s = float(canvas['width'])/g
-    if board[row][col] == 0:
+    if board[row][col] != 0:
         canvas.create_text(col*s+s/2, row*s+s/2, text=str(n), font=('Arial', 20), fill=text_color, tags='number')
-        board[row][col] = n
 
 def new_stage(n, row, col):
     b = board.copy()
