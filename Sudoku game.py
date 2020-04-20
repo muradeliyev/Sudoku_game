@@ -53,7 +53,9 @@ def key_handler(event):
         if is_valid(char, *active):
             s = float(canvas['width']) / g
             row, col = active
-            canvas.create_text(col*s+s/2, row*s+s/2, text=char, font=('Arial', 20), fill=text_color, tags='number')
+            canvas.delete('last')
+            canvas.dtag('last')
+            canvas.create_text(col*s+s/2, row*s+s/2, text=char, font=('Arial', 20), fill=text_color, tags=('number', 'last'))
             board[row][col] = char
 
     except: pass
