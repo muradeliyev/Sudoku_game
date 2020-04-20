@@ -53,7 +53,7 @@ def key_handler(event):
         if is_valid(char, *active):
             s = float(canvas['width']) / g
             row, col = active
-            canvas.delete('last')
+            if board[row][col] != 0: canvas.delete('last')
             canvas.dtag('number', 'last')
             canvas.create_text(col*s+s/2, row*s+s/2, text=char, font=('Arial', 20), fill=text_color, tags=('number', 'last'))
             board[row][col] = char
@@ -85,6 +85,7 @@ def print_board(event):
         for j in range(9):
             print(f"{board[i][j]}", end=(' | ' if (j!=8 and (j+1)%3==0) else ' '))
         print('\n---------------------' if i!=8 and (i+1)%3==0 else '')
+    print("\n\n")
 
 def create_new():
     global board
