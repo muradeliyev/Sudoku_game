@@ -168,8 +168,27 @@ def check_in_box(n, row, col):
                 return True
     return False
 
+def check_knight_move(n, row, col):
+    moves = [
+        [-1, -2],
+        [1, -2],
+        [2, -1],
+        [2, 1],
+        [1, 2],
+        [-1, 2],
+        [-2, 1],
+        [-2, -1]
+    ]
+    for x, y in moves:
+        r = row + y
+        c = col + x
+        if 0 <= c <= 8 and 0 <= r <= 8:
+            if board[r][c] == n:
+                return True
+    return False
+
 def is_valid(n, row, col):
-    return not check_in_vertical(n, row, col) and not check_in_horizontal(n, row, col) and not check_in_box(n, row, col)
+    return not check_in_vertical(n, row, col) and not check_in_horizontal(n, row, col) and not check_in_box(n, row, col) and not check_knight_move(n, row, col)
 #####################################################################################################
 pen = Tk()
 pen.title("Sudoku")
